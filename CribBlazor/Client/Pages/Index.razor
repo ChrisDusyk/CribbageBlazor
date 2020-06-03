@@ -1,0 +1,50 @@
+﻿@page "/"
+@using Microsoft.AspNetCore.SignalR.Client;
+@using CribBlazor.Shared.Cards;
+@inject NavigationManager NavigationManager;
+@implements IDisposable
+
+<h1>Cards</h1>
+
+<p>
+	<button @onclick="Send" disabled="@(!IsConnected)">Send card</button>
+</p>
+
+<ul id="cardList">
+	@foreach (var card in cards)
+	{
+		<li>@card</li>
+	}
+</ul>
+
+@code {
+	private HubConnection hubConnection;
+	private List<string> cards = new List<string>();
+	private Guid playerId = Guid.NewGuid();
+
+	protected override async Task OnInitializedAsync()
+	{
+		hubConnection = new HubConnectionBuilder()
+			.WithUrl(NavigationManager.ToAbsoluteUri("/cardHub"))
+			.WithAutomaticReconnect()
+			.Build();
+
+		hubConnection.On<string, string>("ReceiveCard", (player, json) =>
+		{
+			var card = Card.FromJson(json);
+			cards.Add($"{player}: {card.Face} of {card.Suit}");
+			StateHasChanged();
+		});
+
+		await hubConnection.StartAsync();
+	}
+
+	Task Send() => hubConnection.SendAsync("SendCard", playerId, Card.Create(Suits.Clubs, Faces.Ace).SerializeToJson());
+
+	public bool IsConnected => hubConnection.State == HubConnectionState.Connected;
+
+	public void Dispose()
+	{
+		_ = hubConnection.DisposeAsync();
+	}
+}
