@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CribBlazor.Shared.IoC
+namespace CribBlazor.Game.IoC
 {
 	public static class SerivceCollectionExtensions
 	{

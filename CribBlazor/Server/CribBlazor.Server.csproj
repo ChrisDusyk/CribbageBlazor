@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\CribBlazor.Game\CribBlazor.Game.csproj" />
     <ProjectReference Include="..\Client\CribBlazor.Client.csproj" />
     <ProjectReference Include="..\Shared\CribBlazor.Shared.csproj" />
   </ItemGroup>

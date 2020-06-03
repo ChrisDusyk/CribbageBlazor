@@ -1,13 +1,17 @@
 ﻿@page "/"
 @using Microsoft.AspNetCore.SignalR.Client;
 @using CribBlazor.Shared.Cards;
+@using CribBlazor.Game.Deck;
 @inject NavigationManager NavigationManager;
+@inject CreateFullDeck createFullDeck;
 @implements IDisposable
 
 <h1>Cards</h1>
 
 <p>
 	<button @onclick="Send" disabled="@(!IsConnected)">Send card</button>
+	<br />
+	<button @onclick="GetDeck">Get deck</button>
 </p>
 
 <ul id="cardList">
@@ -21,6 +25,7 @@
 	private HubConnection hubConnection;
 	private List<string> cards = new List<string>();
 	private Guid playerId = Guid.NewGuid();
+	private CribBlazor.Shared.Deck.Deck Deck;
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -38,6 +43,8 @@
 
 		await hubConnection.StartAsync();
 	}
+
+	void GetDeck() => CreateFullDeck().Match(deck => Deck = deck, failure => throw failure);
 
 	Task Send() => hubConnection.SendAsync("SendCard", playerId, Card.Create(Suits.Clubs, Faces.Ace).SerializeToJson());
 

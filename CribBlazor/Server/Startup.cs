@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
 using CribBlazor.Server.Hubs;
+using CribBlazor.Game.IoC;
 
 namespace CribBlazor.Server
 {
@@ -31,6 +32,8 @@ namespace CribBlazor.Server
 			{
 				options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/octet-stream" });
 			});
+
+			services.AddDeckLogic();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
