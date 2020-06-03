@@ -2,8 +2,9 @@
 @using Microsoft.AspNetCore.SignalR.Client;
 @using CribBlazor.Shared.Cards;
 @using CribBlazor.Game.Deck;
+@using Functional;
 @inject NavigationManager NavigationManager;
-@inject CreateFullDeck createFullDeck;
+@inject CreateFullDeck CreateFullDeck;
 @implements IDisposable
 
 <h1>Cards</h1>
@@ -20,6 +21,18 @@
 		<li>@card</li>
 	}
 </ul>
+
+<br />
+
+@if (Deck != null)
+{
+	<ul id="deckList">
+		@foreach (var card in Deck.Cards)
+		{
+			<li>@card.Face - @card.Suit</li>
+		}
+	</ul>
+}
 
 @code {
 	private HubConnection hubConnection;

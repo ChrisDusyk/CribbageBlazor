@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using CribBlazor.Game.IoC;
 
 namespace CribBlazor.Client
 {
@@ -18,6 +19,8 @@ namespace CribBlazor.Client
 			builder.RootComponents.Add<App>("app");
 
 			builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+
+			builder.Services.AddDeckLogic();
 
 			await builder.Build().RunAsync();
 		}
