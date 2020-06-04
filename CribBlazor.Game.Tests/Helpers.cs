@@ -1,10 +1,18 @@
-﻿using FakeItEasy;
+﻿using CribBlazor.Game.Deck.Handlers;
+using FakeItEasy;
 using System;
+using CardDeck = CribBlazor.Shared.Deck.Deck;
 
 namespace CribBlazor.Game.Tests
 {
 	internal static class Helpers
 	{
+		public static CardDeck CreateDeck()
+		{
+			CreateFullDeckHandler createFullDeckHandler = new CreateFullDeckHandler();
+			return createFullDeckHandler.Create().Match(deck => deck, ex => throw ex);
+		}
+
 		public static T CreateUncalledDelegate<T>() where T : class
 			=> CreateDelegate<T>(() => throw new Exception($"Delegate {typeof(T).Name} was called, but should not have"));
 
