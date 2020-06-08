@@ -1,5 +1,5 @@
-﻿using CribBlazor.Server.Domain.GameSession;
-using CribBlazor.Server.Persistence.GameSession;
+﻿using CribBlazor.Server.Domain.GameState;
+using CribBlazor.Server.Persistence.GameState;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
@@ -20,6 +20,6 @@ namespace CribBlazor.Server.IoC
 		}
 
 		public static IServiceCollection AddServerHandlers(this IServiceCollection services)
-			=> services.AddDelegate<CreateGameSession, CreateGameSessionHandler>(handler => handler.CreateMockedSession);
+			=> services.AddDelegate<CreateNewGame, CreateNewGameHandler>(handler => handler.CreateMockedSession);
 	}
 }
