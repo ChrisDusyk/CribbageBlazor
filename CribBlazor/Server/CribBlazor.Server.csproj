@@ -11,6 +11,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\CribBlazor.Game\CribBlazor.Game.csproj" />
+    <ProjectReference Include="..\..\CribBlazor.Server.Domain\CribBlazor.Server.Domain.csproj" />
+    <ProjectReference Include="..\..\CribBlazor.Server.Models\CribBlazor.Server.Models.csproj" />
+    <ProjectReference Include="..\..\CribBlazor.Server.Persistence\CribBlazor.Server.Persistence.csproj" />
     <ProjectReference Include="..\Client\CribBlazor.Client.csproj" />
     <ProjectReference Include="..\Shared\CribBlazor.Shared.csproj" />
   </ItemGroup>

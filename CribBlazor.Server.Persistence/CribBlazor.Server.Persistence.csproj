@@ -8,4 +8,9 @@
     <PackageReference Include="Functional.All" Version="2.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CribBlazor.Server.Domain\CribBlazor.Server.Domain.csproj" />
+    <ProjectReference Include="..\CribBlazor.Server.Models\CribBlazor.Server.Models.csproj" />
+  </ItemGroup>
+
 </Project>
