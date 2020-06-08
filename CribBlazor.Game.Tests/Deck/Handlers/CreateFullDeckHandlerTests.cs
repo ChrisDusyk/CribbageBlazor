@@ -4,6 +4,7 @@ using FluentAssertions;
 using Functional;
 using System.Collections.Generic;
 using Xunit;
+using CribBlazor.Tests;
 
 namespace CribBlazor.Game.Tests.Deck.Handlers
 {

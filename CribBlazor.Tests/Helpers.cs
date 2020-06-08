@@ -3,9 +3,9 @@ using FakeItEasy;
 using System;
 using CardDeck = CribBlazor.Shared.Deck.Deck;
 
-namespace CribBlazor.Game.Tests
+namespace CribBlazor.Tests
 {
-	internal static class Helpers
+	public static class Helpers
 	{
 		public static CardDeck CreateDeck()
 		{

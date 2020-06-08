@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace CribBlazor.Game.Tests
+namespace CribBlazor.Tests
 {
 	public static class OptionExtensions
 	{

@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CribBlazor.Game\CribBlazor.Game.csproj" />
+    <ProjectReference Include="..\CribBlazor.Tests\CribBlazor.Tests.csproj" />
     <ProjectReference Include="..\CribBlazor\Shared\CribBlazor.Shared.csproj" />
   </ItemGroup>
 
