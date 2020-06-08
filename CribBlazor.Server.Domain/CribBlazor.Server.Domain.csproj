@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CribBlazor.Server.Models\CribBlazor.Server.Models.csproj" />
     <ProjectReference Include="..\CribBlazor\Shared\CribBlazor.Shared.csproj" />
   </ItemGroup>
 
