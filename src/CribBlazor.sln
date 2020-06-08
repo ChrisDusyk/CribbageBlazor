@@ -9,19 +9,24 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CribBlazor.Client", "CribBl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CribBlazor.Shared", "CribBlazor\Shared\CribBlazor.Shared.csproj", "{3CA318D5-4012-4DA4-A5BC-F9BDDB46D365}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CribBlazor.Game", "CribBlazor.Game\CribBlazor.Game.csproj", "{B1C6061E-6576-4C2C-A23C-DF7EB99BE55F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CribBlazor.Game", "CribBlazor.Game\CribBlazor.Game.csproj", "{B1C6061E-6576-4C2C-A23C-DF7EB99BE55F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D5CDF96C-5F65-400D-8C67-A2EA485DC1B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CribBlazor.Game.Tests", "CribBlazor.Game.Tests\CribBlazor.Game.Tests.csproj", "{BAEA06B6-0AFD-43D5-8494-20B6A6C066A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CribBlazor.Game.Tests", "CribBlazor.Game.Tests\CribBlazor.Game.Tests.csproj", "{BAEA06B6-0AFD-43D5-8494-20B6A6C066A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CribBlazor.Server.Domain", "CribBlazor.Server.Domain\CribBlazor.Server.Domain.csproj", "{4DEBAAF2-EF3E-404E-8E46-9546D4D32C88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CribBlazor.Server.Domain", "CribBlazor.Server.Domain\CribBlazor.Server.Domain.csproj", "{4DEBAAF2-EF3E-404E-8E46-9546D4D32C88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CribBlazor.Server.Models", "CribBlazor.Server.Models\CribBlazor.Server.Models.csproj", "{A4E344E6-77E5-4742-8500-0E6CA3B34BC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CribBlazor.Server.Models", "CribBlazor.Server.Models\CribBlazor.Server.Models.csproj", "{A4E344E6-77E5-4742-8500-0E6CA3B34BC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CribBlazor.Server.Persistence", "CribBlazor.Server.Persistence\CribBlazor.Server.Persistence.csproj", "{2D5E4DE9-665F-4CAA-B443-7765E141A46F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CribBlazor.Server.Persistence", "CribBlazor.Server.Persistence\CribBlazor.Server.Persistence.csproj", "{2D5E4DE9-665F-4CAA-B443-7765E141A46F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CribBlazor.Tests", "CribBlazor.Tests\CribBlazor.Tests.csproj", "{40C25B89-C9CC-4417-9D6E-8F7B5041F942}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CribBlazor.Tests", "CribBlazor.Tests\CribBlazor.Tests.csproj", "{40C25B89-C9CC-4417-9D6E-8F7B5041F942}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{183F75AE-4642-4F59-B83C-4A358F2ABA0C}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\dotnet-core.yml = ..\.github\workflows\dotnet-core.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
