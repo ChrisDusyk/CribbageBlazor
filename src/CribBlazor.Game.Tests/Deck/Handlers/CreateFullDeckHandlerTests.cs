@@ -11,7 +11,7 @@ namespace CribBlazor.Game.Tests.Deck.Handlers
 	public class CreateFullDeckHandlerTests
 	{
 		[Fact]
-		public void HandlerShouldReturnFullDeck()
+		public void Handler_WhenCalled_ReturnsValidDeckOfCards()
 		{
 			var sut = new CreateFullDeckHandler();
 			var result = sut.Create();
