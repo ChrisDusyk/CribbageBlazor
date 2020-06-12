@@ -41,5 +41,7 @@ namespace CribBlazor.Game.Hand.Handlers
 				return pointSum;
 			})
 			.MapOnFailure(ex => GameLogicError.Create($"Error calcuating hand total: {ex.Message}", ErrorCodes.HandErrorCode.Create("Runs")));
+
+		private Result<int, ApplicationError> FindMaxRunLength
 	}
 }
