@@ -5,43 +5,48 @@ using Functional;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace CribBlazor.Game.Hand.Handlers
 {
 	public class CalculateRunsHandler
 	{
 		public Result<int, ApplicationError> Calculate(Card[] cards)
-			;
+			=> from pointsTuple in GetMaxRunAndMultiplier(cards)
+			   select pointsTuple.MaxLength * pointsTuple.Multiplier;
 
-		private Result<int, ApplicationError> GetMaxRunLength(Card[] cards)
+		private Result<(int MaxLength, int Multiplier), ApplicationError> GetMaxRunAndMultiplier(Card[] cards)
 			=> Result.Try(() =>
 			{
-				int lastCardValue = -1;
-				int runCount = 0;
-				int maxRunCount = 0;
+				int chain = 1;
+				int best = 1;
+				int multiplier = 1;
 
-				for (var i = 0; i < cards.Length; ++i)
+				for (int i = 1; i < cards.Length; ++i)
 				{
-					var card = cards[i];
-					if ((int)card.Face == lastCardValue + 1)
+					if ((int)cards[i - 1].Face == (int)cards[i].Face - 1)
 					{
-						runCount += 1;
+						chain++;
+						if (chain > best) best = chain;
 					}
-					else if ((int)card.Face == lastCardValue)
+					else if (cards[i - 1].Face == cards[i].Face)
 					{
-						break;
+						if (i >= 2 && cards[i - 2].Face == cards[i].Face)
+						{
+							multiplier++;
+						}
+						else
+						{
+							multiplier *= 2;
+						}
 					}
 					else
 					{
-						runCount = 1;
+						chain = 1;
 					}
-
-					maxRunCount = Math.Max(maxRunCount, runCount);
-					lastCardValue = (int)card.Face;
 				}
 
-
-				return maxRunCount;
+				return (best > 2 ? best : 0, multiplier);
 			})
 			.MapOnFailure(ex => GameLogicError.Create($"Error calculating max run length: {ex.Message}", ex, ErrorCodes.HandErrorCode.Create("Runs")));
 

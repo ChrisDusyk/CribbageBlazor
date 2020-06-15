@@ -5,8 +5,6 @@ using CribBlazor.Game.Hand.Handlers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CribBlazor.Game.IoC
 {
@@ -26,6 +24,7 @@ namespace CribBlazor.Game.IoC
 		public static IServiceCollection AddDeckLogic(this IServiceCollection services)
 			=> services
 				.AddDelegate<CreateFullDeck, CreateFullDeckHandler>(handler => handler.Create)
-				.AddDelegate<CalculateHandScore, CalculateHandScoreHandler>(handler => handler.Calculate);
+				.AddDelegate<CalculateHandScore, CalculateHandScoreHandler>(handler => handler.Calculate)
+				.AddDelegate<CalculateRuns, CalculateRunsHandler>(handler => handler.Calculate);
 	}
 }
