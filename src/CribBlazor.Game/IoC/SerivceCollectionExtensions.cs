@@ -25,6 +25,7 @@ namespace CribBlazor.Game.IoC
 			=> services
 				.AddDelegate<CreateFullDeck, CreateFullDeckHandler>(handler => handler.Create)
 				.AddDelegate<CalculateHandScore, CalculateHandScoreHandler>(handler => handler.Calculate)
-				.AddDelegate<CalculateRuns, CalculateRunsHandler>(handler => handler.Calculate);
+				.AddDelegate<CalculateRuns, CalculateRunsHandler>(handler => handler.Calculate)
+				.AddDelegate<CalculateFlush, CalculateFlushHandler>(handler => handler.Calculate);
 	}
 }
