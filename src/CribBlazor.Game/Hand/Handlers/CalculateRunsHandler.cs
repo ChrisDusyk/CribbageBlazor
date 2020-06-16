@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace CribBlazor.Game.Hand.Handlers
 {
-	public class CalculateRunsHandler
+	internal class CalculateRunsHandler
 	{
 		public Result<int, ApplicationError> Calculate(Card[] cards)
 			=> from pointsTuple in GetMaxRunAndMultiplier(cards)

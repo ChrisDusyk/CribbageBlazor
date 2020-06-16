@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace CribBlazor.Game.Hand.Handlers
 {
-	public class CalculateFlushHandler
+	internal class CalculateFlushHandler
 	{
 		public Result<int, ApplicationError> Calculate(Card[] hand, Card cutCard, bool isCrib)
 			=> isCrib

@@ -9,7 +9,7 @@ using CribBlazor.Shared.Errors.ErrorCodes;
 
 namespace CribBlazor.Game.Hand.Handlers
 {
-	public class CalculateFifteensHandler
+	internal class CalculateFifteensHandler
 	{
 		public Result<int, ApplicationError> Calculate(Card[] cards)
 			=> from countOfFifteens in CountFifteens(cards)

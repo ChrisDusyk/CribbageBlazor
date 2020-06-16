@@ -2,14 +2,11 @@
 using CribBlazor.Shared.Errors;
 using CribBlazor.Shared.Errors.ErrorCodes;
 using Functional;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace CribBlazor.Game.Hand.Handlers
 {
-	public class CalculateHandScoreHandler
+	internal class CalculateHandScoreHandler
 	{
 		public Result<int, ApplicationError> Calculate(Card[] hand, Card faceUpCard)
 			=> from fullHand in CreateFullHand(hand, faceUpCard)
