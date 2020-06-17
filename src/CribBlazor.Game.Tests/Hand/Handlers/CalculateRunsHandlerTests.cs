@@ -16,9 +16,8 @@ namespace CribBlazor.Game.Tests.Hand.Handlers
 		[ClassData(typeof(HandCombinations))]
 		public void Handler_WhenCalledWithHand_CalculatesPointsFromRuns(Card[] cards, int expectedPoints)
 		{
-			var sortedCards = cards.OrderBy(c => (int)c.Face).ToArray();
 			var sut = new CalculateRunsHandler();
-			var result = sut.Calculate(sortedCards);
+			var result = sut.Calculate(cards);
 
 			result.AssertSuccess();
 			result.Success().ValueOrDefault().Should().Be(expectedPoints);
@@ -37,7 +36,7 @@ namespace CribBlazor.Game.Tests.Hand.Handlers
 						Card.Create(Suits.Spades, Faces.Queen),
 						Card.Create(Suits.Clubs, Faces.Jack),
 						Card.Create(Suits.Hearts, Faces.King),
-						Card.Create(Suits.Hearts, Faces.Ace)
+						Card.Create(Suits.Clubs, Faces.Ace)
 					},
 					3
 				};

@@ -12,7 +12,7 @@ namespace CribBlazor.Game.Hand.Handlers
 	internal class CalculateRunsHandler
 	{
 		public Result<int, ApplicationError> Calculate(Card[] cards)
-			=> from pointsTuple in GetMaxRunAndMultiplier(cards)
+			=> from pointsTuple in GetMaxRunAndMultiplier(cards.OrderBy(c => (int)c.Face).ToArray())
 			   select pointsTuple.MaxLength * pointsTuple.Multiplier;
 
 		private Result<(int MaxLength, int Multiplier), ApplicationError> GetMaxRunAndMultiplier(Card[] cards)
