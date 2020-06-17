@@ -3,10 +3,8 @@ using CribBlazor.Shared.Cards;
 using CribBlazor.Tests;
 using FluentAssertions;
 using Functional;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace CribBlazor.Game.Tests.Hand.Handlers
