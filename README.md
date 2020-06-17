@@ -1,6 +1,6 @@
 # CribbageBlazor
 
-![Build](https://github.com/ChrisDusyk/CribbageBlazor/workflows/.NET%20Core/badge.svg)
+![Build](https://github.com/ChrisDusyk/CribbageBlazor/workflows/Build/badge.svg)
 
 ## Tech Requirements
 
