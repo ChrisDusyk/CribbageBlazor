@@ -8,35 +8,37 @@ namespace CribBlazor.Game.Hand.Handlers
 {
 	internal class CalculateHandScoreHandler
 	{
-		public Result<int, ApplicationError> Calculate(Card[] hand, Card faceUpCard)
-			=> from fullHand in CreateFullHand(hand, faceUpCard)
-			   from fifteens in CalculateFifteens(fullHand)
-			   from runs in CalculateRuns(fullHand)
-			   select fifteens + runs;
+		private readonly CalculateFifteens _calculateFifteens;
+		private readonly CalculateFlush _calculateFlush;
+		private readonly CalculateNobs _calculateNobs;
+		private readonly CalculatePairs _calculatePairs;
+		private readonly CalculateRuns _calculateRuns;
 
-		private Result<Card[], ApplicationError> CreateFullHand(Card[] hand, Card faceUpCard)
-			=> Result.Try(() => hand.Append(faceUpCard).ToArray())
-			.MapOnFailure(ex => GameLogicError.Create($"Error combining the hand and face up card", ErrorCodes.HandErrorCode.Create("Full hand")));
+		public CalculateHandScoreHandler(
+			CalculateFifteens calculateFifteens,
+			CalculateFlush calculateFlush,
+			CalculateNobs calculateNobs,
+			CalculatePairs calculatePairs,
+			CalculateRuns calculateRuns)
+		{
+			_calculateFifteens = calculateFifteens;
+			_calculateFlush = calculateFlush;
+			_calculateNobs = calculateNobs;
+			_calculatePairs = calculatePairs;
+			_calculateRuns = calculateRuns;
+		}
 
-		private Result<int, ApplicationError> CalculateFifteens(Card[] hand)
-			=> Result.Try(() =>
-			{
-				var pointSum = 0;
+		public Result<int, ApplicationError> Calculate(Card[] hand, Card cutCard, bool isCrib)
+			=> from allCards in CombineCards(hand, cutCard)
+			   from fifteens in _calculateFifteens(allCards)
+			   from flush in _calculateFlush(hand, cutCard, isCrib)
+			   from runs in _calculateRuns(allCards)
+			   from pairs in _calculatePairs(allCards)
+			   from nobs in _calculateNobs(hand, cutCard)
+			   select fifteens + flush + runs + pairs + nobs;
 
-				// Actually calculate 15s
-
-				return pointSum;
-			})
-			.MapOnFailure(ex => GameLogicError.Create($"Error calculating hand total: {ex.Message}", ErrorCodes.HandErrorCode.Create("15s")));
-
-		private Result<int, ApplicationError> CalculateRuns(Card[] hand)
-			=> Result.Try(() =>
-			{
-				var pointSum = 0;
-				var orderedHand = hand.OrderBy(c => c.Face);
-
-				return pointSum;
-			})
-			.MapOnFailure(ex => GameLogicError.Create($"Error calcuating hand total: {ex.Message}", ErrorCodes.HandErrorCode.Create("Runs")));
+		private Result<Card[], ApplicationError> CombineCards(Card[] hand, Card cutCard)
+			=> Result.Try(() => hand.Append(cutCard).ToArray())
+			.MapOnFailure(ex => GameLogicError.Create($"Error combining hand and cut cards: {ex.Message}", ex, ErrorCodes.HandErrorCode.Create(ex.Message)));
 	}
 }

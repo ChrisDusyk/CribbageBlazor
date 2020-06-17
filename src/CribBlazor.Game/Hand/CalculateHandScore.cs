@@ -4,5 +4,5 @@ using Functional;
 
 namespace CribBlazor.Game.Hand
 {
-	public delegate Result<int, ApplicationError> CalculateHandScore(Card[] hand, Card faceUpCard);
+	public delegate Result<int, ApplicationError> CalculateHandScore(Card[] hand, Card cutCard, bool isCrib);
 }

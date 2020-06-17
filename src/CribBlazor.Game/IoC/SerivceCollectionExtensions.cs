@@ -28,6 +28,7 @@ namespace CribBlazor.Game.IoC
 				.AddDelegate<CalculateRuns, CalculateRunsHandler>(handler => handler.Calculate)
 				.AddDelegate<CalculateFlush, CalculateFlushHandler>(handler => handler.Calculate)
 				.AddDelegate<CalculatePairs, CalculatePairsHandler>(handler => handler.CalculatePairs)
-				.AddDelegate<CalculateNobs, CalculateNobsHandler>(handler => handler.Calculate);
+				.AddDelegate<CalculateNobs, CalculateNobsHandler>(handler => handler.Calculate)
+				.AddDelegate<CalculateFifteens, CalculateFifteensHandler>(handler => handler.Calculate);
 	}
 }
