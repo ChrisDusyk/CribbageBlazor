@@ -27,6 +27,7 @@ namespace CribBlazor.Game.IoC
 				.AddDelegate<CalculateHandScore, CalculateHandScoreHandler>(handler => handler.Calculate)
 				.AddDelegate<CalculateRuns, CalculateRunsHandler>(handler => handler.Calculate)
 				.AddDelegate<CalculateFlush, CalculateFlushHandler>(handler => handler.Calculate)
-				.AddDelegate<CalculatePairs, CalculatePairsHandler>(handler => handler.CalculatePairs);
+				.AddDelegate<CalculatePairs, CalculatePairsHandler>(handler => handler.CalculatePairs)
+				.AddDelegate<CalculateNobs, CalculateNobsHandler>(handler => handler.Calculate);
 	}
 }
