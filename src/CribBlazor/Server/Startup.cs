@@ -63,6 +63,7 @@ namespace CribBlazor.Server
 				endpoints.MapRazorPages();
 				endpoints.MapControllers();
 				endpoints.MapHub<CardHub>("/cardHub");
+				endpoints.MapHub<PlayingRoundHub>(Shared.Hubs.PlayingRoundHub);
 				endpoints.MapFallbackToFile("index.html");
 			});
 		}
