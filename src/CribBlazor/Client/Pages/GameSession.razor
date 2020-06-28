@@ -1,0 +1,50 @@
+﻿@page "/game/{GameId}"
+@using Microsoft.AspNetCore.SignalR.Client;
+@using CribBlazor.Shared.Cards;
+@using CribBlazor.Shared;
+@using CribBlazor.Game.Deck;
+@using CribBlazor.Shared.Errors;
+@using CribBlazor.Client.Components;
+@using System.Linq;
+@using Functional;
+@inject NavigationManager NavigationManager;
+@inject CreateFullDeck CreateFullDeck;
+@implements IDisposable
+
+<h3>Crib!</h3>
+
+@code {
+	[Parameter]
+	public Guid GameId { get; set; }
+}
+
+@code {
+	private HubConnection playingRoundHubConnection;
+
+	protected override async Task OnInitializedAsync()
+	{
+		await InitializePlayingRoundHub();
+	}
+
+	private async Task InitializePlayingRoundHub()
+	{
+		playingRoundHubConnection = new HubConnectionBuilder()
+			.WithUrl(NavigationManager.ToAbsoluteUri(Hubs.PlayingRoundHub))
+			.WithAutomaticReconnect()
+			.Build();
+
+		playingRoundHubConnection.On<string, string>("CardPlayed", (player, cardJson) =>
+		{
+			var card = Card.FromJson(cardJson);
+		// add card played to game state
+		StateHasChanged();
+		});
+
+		await playingRoundHubConnection.StartAsync();
+	}
+
+	public void Dispose()
+	{
+		_ = playingRoundHubConnection.DisposeAsync();
+	}
+}
