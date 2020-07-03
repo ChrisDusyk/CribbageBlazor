@@ -15,7 +15,7 @@
 
 @code {
 	[Parameter]
-	public Guid GameId { get; set; }
+	public string GameId { get; set; }
 }
 
 @code {
@@ -24,6 +24,8 @@
 	protected override async Task OnInitializedAsync()
 	{
 		await InitializePlayingRoundHub();
+
+		await ConnectToGameGroup();
 	}
 
 	private async Task InitializePlayingRoundHub()
@@ -43,8 +45,19 @@
 		await playingRoundHubConnection.StartAsync();
 	}
 
+	private async Task ConnectToGameGroup()
+	{
+		await playingRoundHubConnection.SendAsync("AddToGame", GameId);
+	}
+
+	private async Task DisconnectFromGameGroup()
+	{
+		await playingRoundHubConnection.SendAsync("RemoveFromGame", GameId);
+	}
+
 	public void Dispose()
 	{
+		DisconnectFromGameGroup().ConfigureAwait(false);
 		_ = playingRoundHubConnection.DisposeAsync();
 	}
 }

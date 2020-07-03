@@ -12,5 +12,11 @@ namespace CribBlazor.Server.Hubs
 		{
 			await Clients.Group(gameId).CardPlayed(playerId, card);
 		}
+
+		public async Task AddToGame(string gameId)
+			=> await Groups.AddToGroupAsync(Context.ConnectionId, gameId);
+
+		public async Task RemoveFromGame(string gameId)
+			=> await Groups.RemoveFromGroupAsync(Context.ConnectionId, gameId);
 	}
 }
