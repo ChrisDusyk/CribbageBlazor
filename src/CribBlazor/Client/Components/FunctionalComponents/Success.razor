@@ -1,0 +1,14 @@
+﻿@typeparam TSuccess
+@typeparam TFailure
+
+@Result.Match(
+	success => @ChildContent(success),
+	_ => null)
+
+@code {
+	[Parameter]
+	public Result<TSuccess, TFailure> Result { get; set; }
+
+	[Parameter]
+	public RenderFragment<TSuccess> ChildContent { get; set; }
+}

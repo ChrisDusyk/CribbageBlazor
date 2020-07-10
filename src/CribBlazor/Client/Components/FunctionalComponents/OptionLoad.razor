@@ -1,0 +1,33 @@
+﻿@typeparam TValue
+@using Microsoft.AspNetCore.Components;
+@using System.Threading.Tasks;
+@using Primitives = Functional;
+
+@_innerOption.Match(
+	some => some.Match(
+		 innerSome => Some(innerSome),
+		 () => None),
+	() => @<LoadingSpinnerContent />
+)
+
+@code {
+	[Parameter]
+	public Task<Primitives.Option<TValue>> Option { get; set; }
+
+	[Parameter]
+	public RenderFragment None { get; set; }
+
+	[Parameter]
+	public RenderFragment<TValue> Some { get; set; }
+
+	private Primitives.Option<Primitives.Option<TValue>> _innerOption { get; set; } = Primitives.Option.None<Primitives.Option<TValue>>();
+
+	protected override async Task OnParametersSetAsync()
+	{
+		var task = Option;
+		_innerOption = Primitives.Option.None<Primitives.Option<TValue>>();
+		var result = await Primitives.Option.SomeAsync(Option);
+		if (task == Option)
+			_innerOption = result;
+	}
+}
