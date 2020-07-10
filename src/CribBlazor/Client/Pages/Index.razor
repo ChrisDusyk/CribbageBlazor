@@ -6,7 +6,7 @@
 @using CribBlazor.Shared.Errors;
 @using CribBlazor.Client.Components;
 @using System.Linq;
-@using Functional;
+@using CribBlazor.Client.Components.FunctionalComponents;
 @inject NavigationManager NavigationManager;
 @inject CreateFullDeck CreateFullDeck;
 @implements IDisposable
@@ -28,19 +28,19 @@
 
 <br />
 
-@if (Deck.HasValue())
-{
-	<ul id="deckList">
-		@foreach (var card in Deck.ValueOrDefault().Cards)
-		{
-			<li>@card.Face - @card.Suit</li>
-		}
-	</ul>
-}
-else
-{
-	<div>No deck yet...</div>
-}
+<OptionMatch Option="@Deck">
+	<None>
+		<div>No deck yet...</div>
+	</None>
+	<Some Context="deck">
+		<ul>
+			@foreach (var card in deck.Cards)
+			{
+				<li>@card.Face - @card.Suit</li>
+			}
+		</ul>
+	</Some>
+</OptionMatch>
 
 @code {
 	private HubConnection cardHubConnection;
