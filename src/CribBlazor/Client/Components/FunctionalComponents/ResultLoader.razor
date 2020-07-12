@@ -1,0 +1,83 @@
+﻿@typeparam TSuccess
+@typeparam TFailure
+
+<Animate @ref="@_loadingAnimator" style="@(_showContent ? "opacity:0;height:0;" : "opacity:1;height:0;")">
+	<LoadingSpinnerContent />
+</Animate>
+<Animate @ref="@_contentAnimator" style="@(_showContent ? "opacity:1" : "opacity:0")" Delay="@AnimationDuration.DefaultTransition">
+	@_innerResult.Match(
+		some => some.Match(
+		success => Success(success),
+		failure => Failure(failure)),
+		() => null)
+</Animate>
+
+@code {
+	[Parameter]
+	public Func<Task<Result<TSuccess, TFailure>>> ResultFactory { get; set; }
+
+	[Parameter]
+	public RenderFragment<TSuccess> Success { get; set; }
+
+	[Parameter]
+	public RenderFragment<TFailure> Failure { get; set; }
+
+	private Animate _contentAnimator;
+	private Animate _loadingAnimator;
+
+	private Task<Result<TSuccess, TFailure>> _resultTask { get; set; } = null;
+	private Option<Result<TSuccess, TFailure>> _innerResult { get; set; } = Option.None<Result<TSuccess, TFailure>>();
+	private bool _showContent = false;
+
+	protected override void OnInitialized()
+	{
+		_resultTask = ResultFactory();
+	}
+
+	protected override async Task OnParametersSetAsync()
+	{
+		await base.OnParametersSetAsync();
+		await ExecuteRefresh();
+	}
+
+	private async Task ExecuteRefresh()
+	{
+		if (_resultTask != null)
+		{
+			HideContent();
+			var task = _resultTask;
+			var result = await Option.SomeAsync(task);
+			if (task == _resultTask)
+			{
+				_innerResult = result;
+				ShowContent();
+			}
+		}
+	}
+
+	private void HideContent()
+	{
+		if (_contentAnimator != null && _loadingAnimator != null)
+		{
+			_contentAnimator.Delay = TimeSpan.Zero;
+			_loadingAnimator.Delay = AnimationDuration.DefaultTransition;
+		}
+		_showContent = false;
+	}
+
+	private void ShowContent()
+	{
+		if (_contentAnimator != null && _loadingAnimator != null)
+		{
+			_contentAnimator.Delay = AnimationDuration.DefaultTransition;
+			_loadingAnimator.Delay = TimeSpan.Zero;
+		}
+		_showContent = true;
+	}
+
+	public async Task Refresh()
+	{
+		_resultTask = ResultFactory();
+		await ExecuteRefresh();
+	}
+}

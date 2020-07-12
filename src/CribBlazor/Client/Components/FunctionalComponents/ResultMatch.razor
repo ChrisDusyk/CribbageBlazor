@@ -1,0 +1,18 @@
+﻿@typeparam TSuccess
+@typeparam TFailure
+
+@Result.Match(
+	success => Success(success),
+	failure => Failure(failure)
+)
+
+@code {
+	[Parameter]
+	public Result<TSuccess, TFailure> Result { get; set; }
+
+	[Parameter]
+	public RenderFragment<TSuccess> Success { get; set; }
+
+	[Parameter]
+	public RenderFragment<TFailure> Failure { get; set; }
+}

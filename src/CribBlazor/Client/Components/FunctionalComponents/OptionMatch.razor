@@ -1,0 +1,16 @@
+﻿@typeparam TValue
+
+@Option.Match(
+	some => Some(some),
+	() => None)
+
+@code {
+	[Parameter]
+	public Option<TValue> Option { get; set; }
+
+	[Parameter]
+	public RenderFragment<TValue> Some { get; set; }
+
+	[Parameter]
+	public RenderFragment None { get; set; }
+}

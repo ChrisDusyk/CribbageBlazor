@@ -1,0 +1,31 @@
+﻿@typeparam TSuccess
+@typeparam TFailure
+
+@_innerResult.Match(
+	some => some.Match(
+		 success => Success(success),
+		 failure => Failure(failure)),
+	() => @<LoadingSpinnerContent />
+)
+
+@code {
+	[Parameter]
+	public Task<Result<TSuccess, TFailure>> Result { get; set; }
+
+	[Parameter]
+	public RenderFragment<TSuccess> Success { get; set; }
+
+	[Parameter]
+	public RenderFragment<TFailure> Failure { get; set; }
+
+	private Option<Result<TSuccess, TFailure>> _innerResult { get; set; } = Option.None<Result<TSuccess, TFailure>>();
+
+	protected override async Task OnParametersSetAsync()
+	{
+		var task = Result;
+		_innerResult = Option.None<Result<TSuccess, TFailure>>();
+		var result = await Option.SomeAsync(Result);
+		if (task == Result)
+			_innerResult = result;
+	}
+}

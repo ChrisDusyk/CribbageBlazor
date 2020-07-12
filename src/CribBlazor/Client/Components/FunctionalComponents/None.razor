@@ -1,0 +1,13 @@
+﻿@typeparam TValue
+
+@Option.Match(
+	some => null,
+	() => @ChildContent)
+
+@code {
+	[Parameter]
+	public Option<TValue> Option { get; set; }
+
+	[Parameter]
+	public RenderFragment ChildContent { get; set; }
+}

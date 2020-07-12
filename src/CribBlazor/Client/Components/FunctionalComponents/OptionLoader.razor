@@ -1,0 +1,44 @@
+﻿@typeparam TValue
+
+@_innerOption.Match(
+	some => some.Match(
+		 innerSome => Some(innerSome),
+		 () => None),
+	() => @<LoadingSpinnerContent />
+)
+
+@code {
+	[Parameter]
+	public Func<Task<Option<TValue>>> OptionFactory { get; set; }
+
+	[Parameter]
+	public RenderFragment<TValue> Some { get; set; }
+
+	[Parameter]
+	public RenderFragment None { get; set; }
+
+	private Task<Option<TValue>> _optionTask { get; set; } = null;
+	private Option<Option<TValue>> _innerOption { get; set; } = Option.None<Option<TValue>>();
+
+	protected override void OnInitialized()
+	{
+		_optionTask = OptionFactory();
+	}
+
+	protected override async Task OnParametersSetAsync()
+	{
+		if (_optionTask != null)
+		{
+			var task = _optionTask;
+			_innerOption = Option.None<Option<TValue>>();
+			var result = await Option.SomeAsync(task);
+			if (task == _optionTask)
+				_innerOption = result;
+		}
+	}
+
+	public void Refresh()
+	{
+		_optionTask = OptionFactory();
+	}
+}
