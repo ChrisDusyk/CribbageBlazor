@@ -4,24 +4,24 @@ using System.Linq;
 
 namespace CribBlazor.Shared.Errors
 {
-	public class GameLogicError : ApplicationError
+	public class RestError : ApplicationError
 	{
-		private GameLogicError(string message, IEnumerable<ErrorCode> errorCodes, Exception innerException) : base(message, innerException)
+		private RestError(string message, IEnumerable<ErrorCode> errorCodes, Exception innerException) : base(message, innerException)
 			=> ErrorCodes = errorCodes ?? Enumerable.Empty<ErrorCode>();
 
 		public override T Match<T>(
 			Func<GameLogicError, T> gameLogicError,
 			Func<RestError, T> restError)
-			=> gameLogicError(this);
+			=> restError(this);
 
-		public override string ErrorType { get; } = "GameLogic";
+		public override string ErrorType => "Rest";
 
 		public override IEnumerable<ErrorCode> ErrorCodes { get; }
 
 		public static ApplicationError Create(string message, Exception innerException, params ErrorCode[] errorCodes)
-			=> new GameLogicError(message, errorCodes, innerException);
+			=> new RestError(message, errorCodes, innerException);
 
 		public static ApplicationError Create(string message, params ErrorCode[] errorCodes)
-			=> new GameLogicError(message, errorCodes, null);
+			=> new RestError(message, errorCodes, null);
 	}
 }
