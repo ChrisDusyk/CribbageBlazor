@@ -10,7 +10,7 @@
 
 <p>This component demonstrates fetching data from the server.</p>
 
-<ResultLoader @ref="weatherLoader" ResultFactory="@(() => FetchWeatherData(CancellationToken.None))">
+<ResultLoader @ref="WeatherLoader" ResultFactory="@(() => FetchWeatherData(CancellationToken.None))">
 	<Failure>
 		<div>It broke...</div>
 	</Failure>
@@ -43,5 +43,5 @@
 	[Inject]
 	private FetchWeatherData FetchWeatherData { get; set; }
 
-	private ResultLoader<WeatherForecast[], ApplicationError> weatherLoader { get; set; }
+	private ResultLoader<WeatherForecast[], ApplicationError> WeatherLoader { get; set; }
 }
