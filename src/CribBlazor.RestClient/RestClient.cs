@@ -8,6 +8,7 @@ using System.Net.Http.Json;
 using System.Net.Http;
 using System.Threading;
 using CribBlazor.Shared.Errors.ErrorCodes;
+using Newtonsoft.Json;
 
 namespace CribBlazor.RestClient
 {
@@ -19,9 +20,15 @@ namespace CribBlazor.RestClient
 			=> Client = httpClient;
 
 		public Task<Result<TSuccess, ApplicationError>> GetFromJsonAsync<TSuccess>(string uri, CancellationToken cancellationToken)
-			=> Result.TryAsync(() =>
+			=> Result.TryAsync(() => Client.GetFromJsonAsync<TSuccess>(uri, cancellationToken))
+			.MapOnFailure(ex => RestError.Create(ex.Message, ex, ErrorCodes.RestCommunicationErrorCode.Create(uri)));
+
+		public Task<Result<TSuccess, ApplicationError>> PostJsonAsync<TBody, TSuccess>(string uri, TBody body, CancellationToken cancellationToken)
+			=> Result.TryAsync(async () =>
 			{
-				return Client.GetFromJsonAsync<TSuccess>(uri, cancellationToken);
+				var response = await Client.PostAsJsonAsync(uri, body, cancellationToken);
+				var responseBody = await response.Content.ReadAsStringAsync();
+				return JsonConvert.DeserializeObject<TSuccess>(responseBody);
 			})
 			.MapOnFailure(ex => RestError.Create(ex.Message, ex, ErrorCodes.RestCommunicationErrorCode.Create(uri)));
 	}
