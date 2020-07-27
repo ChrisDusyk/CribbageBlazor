@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace CribBlazor.Client.Services
 {
-	public delegate Task<Result<WeatherForecast[], ApplicationError>> FetchWeatherData(CancellationToken cancellationToken);
+	public delegate Task<Result<WeatherForecast[], ApplicationError>> FetchWeatherData();
 }

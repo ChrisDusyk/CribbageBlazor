@@ -10,7 +10,7 @@
 
 <p>This component demonstrates fetching data from the server.</p>
 
-<ResultLoader @ref="WeatherLoader" ResultFactory="@(() => FetchWeatherData(CancellationToken.None))">
+<ResultLoader @ref="WeatherLoader" ResultFactory="@(() => FetchWeatherData())">
 	<Failure>
 		<div>It broke...</div>
 	</Failure>

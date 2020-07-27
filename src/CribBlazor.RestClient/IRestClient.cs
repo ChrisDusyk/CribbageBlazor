@@ -10,8 +10,8 @@ namespace CribBlazor.RestClient
 {
 	public interface IRestClient
 	{
-		Task<Result<TSuccess, ApplicationError>> GetFromJsonAsync<TSuccess>(string uri, CancellationToken cancellationToken);
+		Task<Result<TSuccess, ApplicationError>> GetFromJsonAsync<TSuccess>(string uri);
 
-		Task<Result<TSuccess, ApplicationError>> PostJsonAsync<TBody, TSuccess>(string uri, TBody body, CancellationToken cancellationToken);
+		Task<Result<TSuccess, ApplicationError>> PostJsonAsync<TBody, TSuccess>(string uri, TBody body);
 	}
 }

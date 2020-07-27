@@ -15,8 +15,8 @@ namespace CribBlazor.Client.Services.Handlers
 		public FetchWeatherDataHandler(IRestClient restClient)
 			=> RestClient = restClient;
 
-		public Task<Result<WeatherForecast[], ApplicationError>> GetResult(CancellationToken cancellationToken)
-			=> from weatherData in RestClient.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast", cancellationToken)
+		public Task<Result<WeatherForecast[], ApplicationError>> GetResult()
+			=> from weatherData in RestClient.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast")
 			   select weatherData;
 	}
 }
