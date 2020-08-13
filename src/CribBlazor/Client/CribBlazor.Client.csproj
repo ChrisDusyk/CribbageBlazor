@@ -12,11 +12,13 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Build" Version="3.2.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="3.2.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="3.1.4" />
-    <PackageReference Include="System.Net.Http.Json" Version="3.2.0" />
+    <PackageReference Include="System.Net.Http.Json" Version="3.2.1" />
+    <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\CribBlazor.Game\CribBlazor.Game.csproj" />
+    <ProjectReference Include="..\..\CribBlazor.RestClient\CribBlazor.RestClient.csproj" />
     <ProjectReference Include="..\Shared\CribBlazor.Shared.csproj" />
   </ItemGroup>
 
