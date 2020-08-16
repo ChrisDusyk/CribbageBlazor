@@ -2,8 +2,10 @@
 
 namespace CribBlazor.Server.Hubs
 {
-	public interface IPlayingRoundHub
+	public interface IGameSessionHub
 	{
 		Task CardPlayed(string playerId, string card);
+
+		Task PlayerJoinedGame(string player);
 	}
 }

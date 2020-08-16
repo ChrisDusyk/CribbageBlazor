@@ -1,0 +1,77 @@
+﻿@page "/game/{GameId}"
+@using Microsoft.AspNetCore.SignalR.Client;
+@using CribBlazor.Shared.Cards;
+@using CribBlazor.Shared;
+@using CribBlazor.Game.Deck;
+@using CribBlazor.Shared.Errors;
+@using CribBlazor.Client.Components;
+@using CribBlazor.Client.Components.FunctionalComponents;
+@using CribBlazor.Client.Models;
+@using System.Linq;
+@using Functional;
+@using Newtonsoft.Json;
+@inject NavigationManager NavigationManager;
+@inject CreateFullDeck CreateFullDeck;
+@implements IDisposable
+
+<h3>Crib!</h3>
+
+@code {
+    [Parameter]
+    public string GameId { get; set; }
+
+    // State
+    private Player CurrentPlayer { get; set; }
+    private Player[] PlayerList { get; set; }
+}
+
+@code {
+    private HubConnection gameSessionHub;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await InitializeGameSessionHub();
+
+        await ConnectToGameGroup();
+    }
+
+    private async Task InitializeGameSessionHub()
+    {
+        gameSessionHub = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri(Hubs.GameSessionHub))
+            .WithAutomaticReconnect()
+            .Build();
+
+        gameSessionHub.On<string, string>("CardPlayed", (player, cardJson) =>
+        {
+            var card = Card.FromJson(cardJson);
+            // add card played to game state
+            StateHasChanged();
+        });
+
+        gameSessionHub.On<string>("PlayerJoinedGame", (playerJson) =>
+        {
+            var player = Player.FromJson(playerJson);
+            PlayerList = PlayerList.Append(player).ToArray();
+            StateHasChanged();
+        });
+
+        await gameSessionHub.StartAsync();
+    }
+
+    private async Task ConnectToGameGroup()
+    {
+        await gameSessionHub.SendAsync("AddToGame", GameId, JsonConvert.SerializeObject(CurrentPlayer));
+    }
+
+    private async Task DisconnectFromGameGroup()
+    {
+        await gameSessionHub.SendAsync("RemoveFromGame", GameId);
+    }
+
+    public void Dispose()
+    {
+        DisconnectFromGameGroup().ConfigureAwait(false);
+        _ = gameSessionHub.DisposeAsync();
+    }
+}

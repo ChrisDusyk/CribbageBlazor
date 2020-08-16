@@ -43,60 +43,60 @@
 </OptionMatch>
 
 @code {
-	private HubConnection cardHubConnection;
-	private HubConnection playingRoundHubConnection;
-	private List<string> cards = new List<string>();
-	private Guid playerId = Guid.NewGuid();
+    private HubConnection cardHubConnection;
+    private HubConnection playingRoundHubConnection;
+    private List<string> cards = new List<string>();
+    private Guid playerId = Guid.NewGuid();
 
-	// will need multiple HubConnection here
+    // will need multiple HubConnection here
 
-	private Option<CribBlazor.Shared.Deck.Deck> Deck = Option.None<CribBlazor.Shared.Deck.Deck>();
+    private Option<CribBlazor.Shared.Deck.Deck> Deck = Option.None<CribBlazor.Shared.Deck.Deck>();
 
-	protected override async Task OnInitializedAsync()
-	{
-		cardHubConnection = new HubConnectionBuilder()
-			.WithUrl(NavigationManager.ToAbsoluteUri("/cardHub"))
-			.WithAutomaticReconnect()
-			.Build();
+    protected override async Task OnInitializedAsync()
+    {
+        cardHubConnection = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri("/cardHub"))
+            .WithAutomaticReconnect()
+            .Build();
 
-		cardHubConnection.On<string, string>("ReceiveCard", (player, json) =>
-		{
-			var card = Card.FromJson(json);
-			cards.Add($"{player}: {card.Face} of {card.Suit}");
-			StateHasChanged();
-		});
+        cardHubConnection.On<string, string>("ReceiveCard", (player, json) =>
+        {
+            var card = Card.FromJson(json);
+            cards.Add($"{player}: {card.Face} of {card.Suit}");
+            StateHasChanged();
+        });
 
-		await cardHubConnection.StartAsync();
+        await cardHubConnection.StartAsync();
 
-		await InitializePlayingRoundHub();
-	}
+        await InitializePlayingRoundHub();
+    }
 
-	private async Task InitializePlayingRoundHub()
-	{
-		playingRoundHubConnection = new HubConnectionBuilder()
-			.WithUrl(NavigationManager.ToAbsoluteUri(Hubs.PlayingRoundHub))
-			.WithAutomaticReconnect()
-			.Build();
+    private async Task InitializePlayingRoundHub()
+    {
+        playingRoundHubConnection = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri(Hubs.GameSessionHub))
+            .WithAutomaticReconnect()
+            .Build();
 
-		playingRoundHubConnection.On<string, string>("CardPlayed", (player, cardJson) =>
-		{
-			var card = Card.FromJson(cardJson);
-		// add card played to game state
-		StateHasChanged();
-		});
+        playingRoundHubConnection.On<string, string>("CardPlayed", (player, cardJson) =>
+        {
+            var card = Card.FromJson(cardJson);
+            // add card played to game state
+            StateHasChanged();
+        });
 
-		await playingRoundHubConnection.StartAsync();
-	}
+        await playingRoundHubConnection.StartAsync();
+    }
 
-	void GetDeck() => CreateFullDeck().Match(deck => Deck = Option.Some(deck), failure => throw failure);
+    void GetDeck() => CreateFullDeck().Match(deck => Deck = Option.Some(deck), failure => throw failure);
 
-	Task Send() => cardHubConnection.SendAsync("SendCard", playerId, Card.Create(Suits.Clubs, Faces.Ace).SerializeToJson());
+    Task Send() => cardHubConnection.SendAsync("SendCard", playerId, Card.Create(Suits.Clubs, Faces.Ace).SerializeToJson());
 
-	public bool IsConnected => cardHubConnection.State == HubConnectionState.Connected;
+    public bool IsConnected => cardHubConnection.State == HubConnectionState.Connected;
 
-	public void Dispose()
-	{
-		_ = cardHubConnection.DisposeAsync();
-		_ = playingRoundHubConnection.DisposeAsync();
-	}
+    public void Dispose()
+    {
+        _ = cardHubConnection.DisposeAsync();
+        _ = playingRoundHubConnection.DisposeAsync();
+    }
 }

@@ -2,6 +2,6 @@
 {
 	public static class Hubs
 	{
-		public static string PlayingRoundHub = "/PlayingRoundHub";
+		public static string GameSessionHub = "/GameSessionHub";
 	}
 }
